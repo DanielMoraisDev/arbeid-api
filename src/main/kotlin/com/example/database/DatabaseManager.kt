@@ -1,9 +1,6 @@
 package com.example.database
 
-import com.example.entities.Empresas
-import com.example.entities.EmpresasDraft
-import com.example.entities.Postagens
-import com.example.entities.PostagensDraft
+import com.example.entities.*
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.ktorm.database.Database
@@ -51,5 +48,18 @@ class DatabaseManager {
         } as Int
 
         return Empresas(insertedId, draft.nome_empresa, draft.email_empresa, draft.senha_empresa, draft.cnpj_empresa, draft.ativo)
+    }
+
+    // Criar Usuario
+    fun addUsuarios(draft: UsuariosDraft): Usuarios {
+        val insertedId = ktormDatabase.insertAndGenerateKey(DBUsuariosTable) {
+            set(DBUsuariosTable.nome_usuario, draft.nome_usuario)
+            set(DBUsuariosTable.email_usuario, draft.email_usuario)
+            set(DBUsuariosTable.senha_usuario, draft.senha_usuario)
+            set(DBUsuariosTable.cpf_usuario, draft.cpf_usuario)
+            set(DBUsuariosTable.ativo, true)
+        } as Int
+
+        return Usuarios(insertedId, draft.nome_usuario, draft.email_usuario, draft.senha_usuario, draft.cpf_usuario, draft.ativo)
     }
 }

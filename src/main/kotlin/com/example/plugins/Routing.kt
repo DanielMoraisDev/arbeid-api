@@ -2,10 +2,8 @@ package com.example.plugins
 
 import com.example.entities.EmpresasDraft
 import com.example.entities.PostagensDraft
-import com.example.repository.EmpresasRepository
-import com.example.repository.MySQLEmpresasRepository
-import com.example.repository.MySQLPostagensRepository
-import com.example.repository.PostagensRepository
+import com.example.entities.UsuariosDraft
+import com.example.repository.*
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
 import io.ktor.server.application.*
@@ -46,6 +44,16 @@ fun Application.configureRouting() {
 
             val empresa = repositoryEmpresas.addEmpresas(empresaDraft)
             call.respond(empresa)
+        }
+
+        val repositoryUsuarios: UsuariosRepository = MySQLUsuariosRepository()
+
+        post("/usuarios") {
+            val usuarioDraft = call.receive<UsuariosDraft>()
+            usuarioDraft.ativo = true
+
+            val usuario = repositoryUsuarios.addUsuarios(usuarioDraft)
+            call.respond(usuario)
         }
     }
 }

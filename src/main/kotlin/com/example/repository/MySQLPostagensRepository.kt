@@ -1,11 +1,8 @@
 package com.example.repository
 
 import com.example.database.DatabaseManager
-import com.example.entities.Empresas
-import com.example.entities.EmpresasDraft
 import com.example.entities.Postagens
 import com.example.entities.PostagensDraft
-import org.jetbrains.exposed.sql.exists
 
 class MySQLPostagensRepository: PostagensRepository {
 

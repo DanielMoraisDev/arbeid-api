@@ -1,7 +1,7 @@
 package com.example.plugins
 
 import com.example.entities.PostagensDraft
-import com.example.repository.InMemoryPostagensRepository
+import com.example.repository.MySQLPostagensRepository
 import com.example.repository.PostagensRepository
 import io.ktor.http.*
 import io.ktor.serialization.gson.*
@@ -23,7 +23,7 @@ fun Application.configureRouting() {
     }
 
     routing {
-        val repositoryPostagens: PostagensRepository = InMemoryPostagensRepository()
+        val repositoryPostagens: PostagensRepository = MySQLPostagensRepository()
 
         get("/postagens") {
             call.respond(repositoryPostagens.getAllPostagens())

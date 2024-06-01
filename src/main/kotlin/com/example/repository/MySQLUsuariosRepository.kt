@@ -15,4 +15,15 @@ class MySQLUsuariosRepository: UsuariosRepository {
     override fun updateUsuarios(id: Int, draft: UsuariosDraft): Boolean {
         return database.updateUsuario(id, draft)
     }
+
+    override fun getAllUsuarios(): List<Usuarios> {
+        return database.getAllUsuarios().map { Usuarios(
+            it.id_usuario,
+            it.nome_usuario,
+            it.email_usuario,
+            it.senha_usuario,
+            it.cpf_usuario,
+            it.ativo
+        ) }
+    }
 }

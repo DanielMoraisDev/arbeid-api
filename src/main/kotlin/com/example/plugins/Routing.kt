@@ -1,5 +1,6 @@
 package com.example.plugins
 
+import com.example.database.DatabaseManager
 import com.example.entities.EmpresasDraft
 import com.example.entities.PostagensDraft
 import com.example.entities.UsuariosDraft
@@ -12,6 +13,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All
 
 
 fun Application.configureRouting() {
@@ -88,6 +90,28 @@ fun Application.configureRouting() {
             } else {
                 call.respond(HttpStatusCode.NotFound, "Not found user with that id $usuarioId")
             }
+        }
+
+        get("/contas/{nome}"){
+            val accountName = call.parameters["nome"]
+
+            if (accountName == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid Name")
+                return@get
+            }
+
+            var AllUsuarios = repositoryUsuarios.getAllUsuarios()
+            var FilterByNameUsuarios = AllUsuarios.filter { it.nome_usuario.contains(accountName, ignoreCase = true )}
+            var AllEmpresas = repositoryEmpresas.getAllEmpresas()
+            var FilterByNameEmpresas = AllEmpresas.filter { it.nome_empresa.contains(accountName, ignoreCase = true)}
+            var FilteredAccounts = FilterByNameEmpresas + FilterByNameUsuarios
+
+            if (FilteredAccounts.size < 1) {
+                call.respond(HttpStatusCode.BadRequest, "No accounts founded with '$accountName'")
+                return@get
+            }
+
+            call.respond(HttpStatusCode.OK, FilteredAccounts)
         }
     }
 }

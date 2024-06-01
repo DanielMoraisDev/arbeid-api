@@ -1,12 +1,11 @@
 package com.example.database
 
 import com.example.entities.*
-import org.ktorm.entity.sequenceOf
-import org.ktorm.entity.toList
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.insertAndGenerateKey
 import org.ktorm.dsl.update
+import org.ktorm.entity.*
 
 class DatabaseManager {
     // config
@@ -79,6 +78,11 @@ class DatabaseManager {
         return updatedRows > 0
     }
 
+    // Buscar empresa por nome
+    fun getAllEmpresas(): List<DBEmpresasEntity> {
+        return ktormDatabase.sequenceOf(DBEmpresasTable).toList()
+    }
+
     // Criar Usuario
     fun addUsuarios(draft: UsuariosDraft): Usuarios {
         val insertedId = ktormDatabase.insertAndGenerateKey(DBUsuariosTable) {
@@ -116,5 +120,10 @@ class DatabaseManager {
         }
 
         return updatedRows > 0
+    }
+
+    // Buscar usuario por nome
+    fun getAllUsuarios(): List<DBUsuariosEntity> {
+        return ktormDatabase.sequenceOf(DBUsuariosTable).toList()
     }
 }

@@ -11,4 +11,8 @@ class MySQLEmpresasRepository: EmpresasRepository {
     override fun addEmpresas(draft: EmpresasDraft): Empresas {
         return database.addEmpresas(draft)
     }
+
+    override fun updateEmpresas(id: Int, draft: EmpresasDraft): Boolean {
+        return database.updateEmpresas(id, draft)
+    }
 }

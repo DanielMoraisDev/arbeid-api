@@ -6,4 +6,6 @@ import com.example.entities.EmpresasDraft
 interface EmpresasRepository {
 
     fun addEmpresas(draft: EmpresasDraft): Empresas
+
+    fun updateEmpresas(id: Int, draft: EmpresasDraft): Boolean
 }

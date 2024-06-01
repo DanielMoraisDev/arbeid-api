@@ -46,6 +46,23 @@ fun Application.configureRouting() {
             call.respond(empresa)
         }
 
+        put("/empresas/{id}"){
+            val empresasDraft = call.receive<EmpresasDraft>()
+            val empresaID = call.parameters["id"]?.toIntOrNull()
+
+            if (empresaID == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                return@put
+            }
+
+            val updated = repositoryEmpresas.updateEmpresas(empresaID, empresasDraft)
+            if (updated) {
+                call.respond(HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.NotFound, "Not found user with that id $empresaID")
+            }
+        }
+
         val repositoryUsuarios: UsuariosRepository = MySQLUsuariosRepository()
 
         post("/usuarios") {
@@ -56,7 +73,7 @@ fun Application.configureRouting() {
             call.respond(usuario)
         }
 
-        put("/usuarios/{id}") {
+        put("/usuario/{id}") {
             val usuarioDraft = call.receive<UsuariosDraft>()
             val usuarioId = call.parameters["id"]?.toIntOrNull()
 

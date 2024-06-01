@@ -52,6 +52,33 @@ class DatabaseManager {
         return Empresas(insertedId, draft.nome_empresa, draft.email_empresa, draft.senha_empresa, draft.cnpj_empresa, draft.ativo)
     }
 
+    // Atualizar empresa
+    fun updateEmpresas(id: Int, draft: EmpresasDraft): Boolean {
+        val updatedRows = ktormDatabase.update(DBEmpresasTable  ) {
+            if (draft.nome_empresa != null) {
+                set(DBUsuariosTable.nome_usuario, draft.nome_empresa)
+            }
+            if (draft.email_empresa != null) {
+                set(DBUsuariosTable.email_usuario, draft.email_empresa)
+            }
+            if (draft.senha_empresa != null) {
+                set(DBUsuariosTable.senha_usuario, draft.senha_empresa)
+            }
+            if (draft.cnpj_empresa != null) {
+                set(DBUsuariosTable.cpf_usuario, draft.cnpj_empresa)
+            }
+            if (draft.ativo != null) {
+                set(DBUsuariosTable.ativo, true)
+            }
+
+            where {
+                it.id_empresa eq id
+            }
+        }
+
+        return updatedRows > 0
+    }
+
     // Criar Usuario
     fun addUsuarios(draft: UsuariosDraft): Usuarios {
         val insertedId = ktormDatabase.insertAndGenerateKey(DBUsuariosTable) {

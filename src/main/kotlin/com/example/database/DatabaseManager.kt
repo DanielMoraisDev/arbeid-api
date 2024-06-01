@@ -1,13 +1,13 @@
 package com.example.database
 
+import com.example.entities.Empresas
+import com.example.entities.EmpresasDraft
 import com.example.entities.Postagens
 import com.example.entities.PostagensDraft
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.ktorm.database.Database
-import org.ktorm.dsl.eq
 import org.ktorm.dsl.insertAndGenerateKey
-import org.ktorm.entity.firstOrNull
 
 class DatabaseManager {
     // config
@@ -38,5 +38,18 @@ class DatabaseManager {
         } as Int
 
         return Postagens(insertedId, draft.titulo_postagem, draft.descricao_postagem, draft.tag)
+    }
+
+    // Criar empresa
+    fun addEmpresas(draft: EmpresasDraft): Empresas {
+        val insertedId = ktormDatabase.insertAndGenerateKey(DBEmpresasTable) {
+            set(DBEmpresasTable.nome_empresa, draft.nome_empresa)
+            set(DBEmpresasTable.email_empresa, draft.email_empresa)
+            set(DBEmpresasTable.senha_empresa, draft.senha_empresa)
+            set(DBEmpresasTable.cnpj_empresa, draft.cnpj_empresa)
+            set(DBEmpresasTable.ativo, true)
+        } as Int
+
+        return Empresas(insertedId, draft.nome_empresa, draft.email_empresa, draft.senha_empresa, draft.cnpj_empresa, draft.ativo)
     }
 }

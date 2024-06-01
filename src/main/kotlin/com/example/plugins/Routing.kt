@@ -1,6 +1,9 @@
 package com.example.plugins
 
+import com.example.entities.EmpresasDraft
 import com.example.entities.PostagensDraft
+import com.example.repository.EmpresasRepository
+import com.example.repository.MySQLEmpresasRepository
 import com.example.repository.MySQLPostagensRepository
 import com.example.repository.PostagensRepository
 import io.ktor.http.*
@@ -29,10 +32,20 @@ fun Application.configureRouting() {
             call.respond(repositoryPostagens.getAllPostagens())
         }
         post("/postagens") {
-            val todoDraft = call.receive<PostagensDraft>()
+            val postagemDraft = call.receive<PostagensDraft>()
 
-            val todo = repositoryPostagens.addPostagens(todoDraft)
-            call.respond(todo)
+            val postagem = repositoryPostagens.addPostagens(postagemDraft)
+            call.respond(postagem)
+        }
+
+        val repositoryEmpresas: EmpresasRepository = MySQLEmpresasRepository()
+
+        post("/empresas") {
+            val empresaDraft = call.receive<EmpresasDraft>()
+            empresaDraft.ativo = true
+
+            val empresa = repositoryEmpresas.addEmpresas(empresaDraft)
+            call.respond(empresa)
         }
     }
 }

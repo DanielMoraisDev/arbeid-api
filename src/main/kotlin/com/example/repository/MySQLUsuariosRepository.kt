@@ -11,4 +11,8 @@ class MySQLUsuariosRepository: UsuariosRepository {
     override fun addUsuarios(draft: UsuariosDraft): Usuarios {
         return database.addUsuarios(draft)
     }
+
+    override fun updateUsuarios(id: Int, draft: UsuariosDraft): Boolean {
+        return database.updateUsuario(id, draft)
+    }
 }

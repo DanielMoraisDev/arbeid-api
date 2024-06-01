@@ -55,5 +55,22 @@ fun Application.configureRouting() {
             val usuario = repositoryUsuarios.addUsuarios(usuarioDraft)
             call.respond(usuario)
         }
+
+        put("/usuarios/{id}") {
+            val usuarioDraft = call.receive<UsuariosDraft>()
+            val usuarioId = call.parameters["id"]?.toIntOrNull()
+
+            if (usuarioId == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                return@put
+            }
+
+            val updated = repositoryUsuarios.updateUsuarios(usuarioId, usuarioDraft)
+            if (updated) {
+                call.respond(HttpStatusCode.OK)
+            } else {
+                call.respond(HttpStatusCode.NotFound, "Not found user with that id $usuarioId")
+            }
+        }
     }
 }

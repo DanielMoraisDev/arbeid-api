@@ -4,7 +4,9 @@ import com.example.entities.*
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
 import org.ktorm.database.Database
+import org.ktorm.dsl.eq
 import org.ktorm.dsl.insertAndGenerateKey
+import org.ktorm.dsl.update
 
 class DatabaseManager {
     // config
@@ -61,5 +63,31 @@ class DatabaseManager {
         } as Int
 
         return Usuarios(insertedId, draft.nome_usuario, draft.email_usuario, draft.senha_usuario, draft.cpf_usuario, draft.ativo)
+    }
+
+    // Atualizar Usuario
+    fun updateUsuario(id: Int, draft: UsuariosDraft): Boolean {
+        val updatedRows = ktormDatabase.update(DBUsuariosTable) {
+            if (draft.nome_usuario != null) {
+                set(DBUsuariosTable.nome_usuario, draft.nome_usuario)
+            }
+            if (draft.email_usuario != null) {
+                set(DBUsuariosTable.email_usuario, draft.email_usuario)
+            }
+            if (draft.senha_usuario != null) {
+                set(DBUsuariosTable.senha_usuario, draft.senha_usuario)
+            }
+            if (draft.cpf_usuario != null) {
+                set(DBUsuariosTable.cpf_usuario, draft.cpf_usuario)
+            }
+            if (draft.ativo != null) {
+                set(DBUsuariosTable.ativo, true)
+            }
+            where {
+                it.id_usuario eq id
+            }
+        }
+
+        return updatedRows > 0
     }
 }

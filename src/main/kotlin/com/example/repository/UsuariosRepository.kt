@@ -5,4 +5,6 @@ import com.example.entities.UsuariosDraft
 
 interface UsuariosRepository {
     fun addUsuarios(draft: UsuariosDraft): Usuarios
+
+    fun updateUsuarios(id: Int, draft: UsuariosDraft): Boolean
 }

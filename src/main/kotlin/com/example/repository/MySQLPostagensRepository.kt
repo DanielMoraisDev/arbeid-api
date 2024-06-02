@@ -12,8 +12,7 @@ class MySQLPostagensRepository: PostagensRepository {
         return database.getAllPostagens().map { Postagens(
             it.id_postagem,
             it.titulo_postagem,
-            it.descricao_postagem,
-            it.tag
+            it.descricao_postagem
         ) }
     }
 

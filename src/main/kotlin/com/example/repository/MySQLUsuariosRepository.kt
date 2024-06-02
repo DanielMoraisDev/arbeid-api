@@ -1,6 +1,8 @@
 package com.example.repository
 
+import com.example.database.DBUsuariosEntity
 import com.example.database.DatabaseManager
+import com.example.entities.Postagens
 import com.example.entities.Usuarios
 import com.example.entities.UsuariosDraft
 
@@ -26,5 +28,13 @@ class MySQLUsuariosRepository: UsuariosRepository {
             it.foto_perfil,
             it.ativo
         ) }
+    }
+
+    override fun desactiveUsuarios(id: Int): Boolean {
+        return database.desactiveUsuarios(id)
+    }
+
+    override fun deleteUsuarios(id: Int): Boolean {
+        return database.deleteUsuarios(id)
     }
 }

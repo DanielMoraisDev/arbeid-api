@@ -11,4 +11,8 @@ interface EmpresasRepository {
     fun updateEmpresas(id: Int, draft: EmpresasDraft): Boolean
 
     fun getAllEmpresas(): List<Empresas>
+
+    fun desactiveEmpresas(id: Int): Boolean
+
+    fun deleteEmpresas(id: Int): Boolean
 }

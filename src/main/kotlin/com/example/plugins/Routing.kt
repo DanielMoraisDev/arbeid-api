@@ -13,6 +13,7 @@ import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.util.*
 import kotlin.reflect.jvm.internal.impl.descriptors.deserialization.PlatformDependentDeclarationFilter.All
 
 
@@ -77,7 +78,7 @@ fun Application.configureRouting() {
             call.respond(usuario)
         }
 
-        put("/usuario/{id}") {
+        put("/usuarios/{id}") {
             val usuarioDraft = call.receive<UsuariosDraft>()
             val usuarioId = call.parameters["id"]?.toIntOrNull()
 
@@ -114,6 +115,72 @@ fun Application.configureRouting() {
             }
 
             call.respond(HttpStatusCode.OK, FilteredAccounts)
+        }
+
+        put("/desativar/{type}/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+            val typeDesactive = call.url().split("/")[4]
+
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                return@put
+            }
+
+            if (typeDesactive == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid type")
+                return@put
+            }
+
+            if (typeDesactive == "usuarios") {
+                var desactivated = repositoryUsuarios.desactiveUsuarios(id)
+                if (desactivated) {
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Not found user with that id $id")
+                }
+            } else if (typeDesactive == "empresas") {
+                var desactivated = repositoryEmpresas.desactiveEmpresas(id)
+                if (desactivated) {
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Not found interprise with that id $id")
+                }
+            } else {
+                call.respond(HttpStatusCode.NotFound, "This type is not avaiable")
+            }
+        }
+
+        delete("/deletar/{type}/{id}") {
+            val id = call.parameters["id"]?.toIntOrNull()
+            val typeDelete = call.url().split("/")[4]
+
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid ID")
+                return@delete
+            }
+
+            if (typeDelete == null) {
+                call.respond(HttpStatusCode.BadRequest, "Invalid type")
+                return@delete
+            }
+
+            if (typeDelete == "usuarios") {
+                var deleted = repositoryUsuarios.deleteUsuarios(id)
+                if (deleted) {
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Not found user with that id $id")
+                }
+            } else if (typeDelete == "empresas") {
+                var deleted = repositoryEmpresas.deleteEmpresas(id)
+                if (deleted) {
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.NotFound, "Not found interprise with that id $id")
+                }
+            } else {
+                call.respond(HttpStatusCode.NotFound, "This type is not avaiable")
+            }
         }
     }
 }

@@ -29,4 +29,11 @@ class MySQLEmpresasRepository: EmpresasRepository {
         ) }
     }
 
+    override fun desactiveEmpresas(id: Int): Boolean {
+        return database.desactiveEmpresas(id)
+    }
+
+    override fun deleteEmpresas(id: Int): Boolean {
+        return database.deleteEmpresas(id)
+    }
 }

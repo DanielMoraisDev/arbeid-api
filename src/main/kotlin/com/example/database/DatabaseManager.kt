@@ -2,6 +2,7 @@ package com.example.database
 
 import com.example.entities.*
 import org.ktorm.database.Database
+import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
 import org.ktorm.dsl.insertAndGenerateKey
 import org.ktorm.dsl.update
@@ -35,7 +36,7 @@ class DatabaseManager {
             set(DBPostagensTable.tag, draft.tag)
         } as Int
 
-        return Postagens(insertedId, draft.titulo_postagem, draft.descricao_postagem, draft.tag)
+        return Postagens(insertedId, draft.titulo_postagem, draft.descricao_postagem)
     }
 
     // Criar empresa
@@ -88,6 +89,26 @@ class DatabaseManager {
         return ktormDatabase.sequenceOf(DBEmpresasTable).toList()
     }
 
+    // Desativar empresa
+    fun desactiveEmpresas(id: Int): Boolean {
+        val updatedRows = ktormDatabase.update(DBEmpresasTable) {
+            set(it.ativo, false)
+            where {
+                it.id_empresa eq id
+            }
+        }
+
+        return updatedRows > 0
+    }
+
+    // Deletar empresa
+    fun deleteEmpresas(id: Int): Boolean {
+        val deletedRows = ktormDatabase.delete(DBEmpresasTable) {
+            it.id_empresa eq id
+        }
+        return deletedRows > 0
+    }
+
     // Criar Usuario
     fun addUsuarios(draft: UsuariosDraft): Usuarios {
         val insertedId = ktormDatabase.insertAndGenerateKey(DBUsuariosTable) {
@@ -134,5 +155,25 @@ class DatabaseManager {
     // Buscar usuario por nome
     fun getAllUsuarios(): List<DBUsuariosEntity> {
         return ktormDatabase.sequenceOf(DBUsuariosTable).toList()
+    }
+
+    // Desativar usuario
+    fun desactiveUsuarios(id: Int): Boolean {
+        val updatedRows = ktormDatabase.update(DBUsuariosTable) {
+            set(it.ativo, false)
+            where {
+                it.id_usuario eq id
+            }
+        }
+
+        return updatedRows > 0
+    }
+
+    // Deletar usuario
+    fun deleteUsuarios(id: Int): Boolean {
+        val deletedRows = ktormDatabase.delete(DBUsuariosTable) {
+            it.id_usuario eq id
+        }
+        return deletedRows > 0
     }
 }

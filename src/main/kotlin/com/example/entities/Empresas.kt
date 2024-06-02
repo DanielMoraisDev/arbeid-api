@@ -6,6 +6,6 @@ data class Empresas(
     var email_empresa: String,
     var senha_empresa: String,
     var cnpj_empresa: String,
+    var foto_perfil: String,
     var ativo: Boolean
-//  Falta: foto_perfil
 )

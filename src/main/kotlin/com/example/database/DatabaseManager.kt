@@ -40,34 +40,39 @@ class DatabaseManager {
 
     // Criar empresa
     fun addEmpresas(draft: EmpresasDraft): Empresas {
+
         val insertedId = ktormDatabase.insertAndGenerateKey(DBEmpresasTable) {
             set(DBEmpresasTable.nome_empresa, draft.nome_empresa)
             set(DBEmpresasTable.email_empresa, draft.email_empresa)
             set(DBEmpresasTable.senha_empresa, draft.senha_empresa)
             set(DBEmpresasTable.cnpj_empresa, draft.cnpj_empresa)
-            set(DBEmpresasTable.ativo, true)
+            set(DBEmpresasTable.foto_perfil, draft.foto_perfil)
+            set(DBEmpresasTable.ativo, draft.ativo)
         } as Int
 
-        return Empresas(insertedId, draft.nome_empresa, draft.email_empresa, draft.senha_empresa, draft.cnpj_empresa, draft.ativo)
+        return Empresas(insertedId, draft.nome_empresa, draft.email_empresa, draft.senha_empresa, draft.cnpj_empresa, draft.foto_perfil, draft.ativo)
     }
 
     // Atualizar empresa
     fun updateEmpresas(id: Int, draft: EmpresasDraft): Boolean {
         val updatedRows = ktormDatabase.update(DBEmpresasTable  ) {
             if (draft.nome_empresa != null) {
-                set(DBUsuariosTable.nome_usuario, draft.nome_empresa)
+                set(DBEmpresasTable.senha_empresa, draft.nome_empresa)
             }
             if (draft.email_empresa != null) {
-                set(DBUsuariosTable.email_usuario, draft.email_empresa)
+                set(DBEmpresasTable.senha_empresa, draft.email_empresa)
             }
             if (draft.senha_empresa != null) {
-                set(DBUsuariosTable.senha_usuario, draft.senha_empresa)
+                set(DBEmpresasTable.senha_empresa, draft.senha_empresa)
             }
             if (draft.cnpj_empresa != null) {
-                set(DBUsuariosTable.cpf_usuario, draft.cnpj_empresa)
+                set(DBEmpresasTable.cnpj_empresa, draft.cnpj_empresa)
+            }
+            if (draft.foto_perfil != null) {
+                set(DBEmpresasTable.foto_perfil, draft.foto_perfil)
             }
             if (draft.ativo != null) {
-                set(DBUsuariosTable.ativo, true)
+                set(DBEmpresasTable.ativo, true)
             }
 
             where {
@@ -90,10 +95,11 @@ class DatabaseManager {
             set(DBUsuariosTable.email_usuario, draft.email_usuario)
             set(DBUsuariosTable.senha_usuario, draft.senha_usuario)
             set(DBUsuariosTable.cpf_usuario, draft.cpf_usuario)
+            set(DBEmpresasTable.foto_perfil, draft.foto_perfil)
             set(DBUsuariosTable.ativo, true)
         } as Int
 
-        return Usuarios(insertedId, draft.nome_usuario, draft.email_usuario, draft.senha_usuario, draft.cpf_usuario, draft.ativo)
+        return Usuarios(insertedId, draft.nome_usuario, draft.email_usuario, draft.senha_usuario, draft.cpf_usuario, draft.foto_perfil,draft.ativo)
     }
 
     // Atualizar Usuario
@@ -110,6 +116,9 @@ class DatabaseManager {
             }
             if (draft.cpf_usuario != null) {
                 set(DBUsuariosTable.cpf_usuario, draft.cpf_usuario)
+            }
+            if (draft.foto_perfil != null) {
+                set(DBEmpresasTable.foto_perfil, draft.foto_perfil)
             }
             if (draft.ativo != null) {
                 set(DBUsuariosTable.ativo, true)

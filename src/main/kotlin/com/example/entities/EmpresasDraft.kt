@@ -5,6 +5,6 @@ data class EmpresasDraft(
     val email_empresa: String,
     val senha_empresa: String,
     val cnpj_empresa: String,
+    var foto_perfil: String,
     var ativo: Boolean
-//  Falta: foto_perfil
 )

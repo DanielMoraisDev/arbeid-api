@@ -24,6 +24,7 @@ class MySQLEmpresasRepository: EmpresasRepository {
             it.email_empresa,
             it.senha_empresa,
             it.cnpj_empresa,
+            it.foto_perfil,
             it.ativo
         ) }
     }

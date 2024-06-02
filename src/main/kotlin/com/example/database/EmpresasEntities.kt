@@ -12,6 +12,7 @@ object DBEmpresasTable: Table<DBEmpresasEntity>("empresas") {
     val email_empresa = varchar("email_empresa").bindTo { it.email_empresa }
     val senha_empresa = varchar("senha_empresa").bindTo { it.senha_empresa }
     val cnpj_empresa = varchar("cnpj_empresa").bindTo { it.cnpj_empresa }
+    val foto_perfil = varchar("foto_perfil").bindTo { it.foto_perfil }
     val ativo = boolean("ativo").bindTo { it.ativo }
 }
 
@@ -24,5 +25,6 @@ interface DBEmpresasEntity: Entity<DBEmpresasEntity> {
     val email_empresa: String
     val senha_empresa: String
     val cnpj_empresa: String
+    val foto_perfil: String
     val ativo: Boolean
 }

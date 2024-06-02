@@ -42,6 +42,7 @@ fun Application.configureRouting() {
 
         post("/empresas") {
             val empresaDraft = call.receive<EmpresasDraft>()
+            empresaDraft.foto_perfil = "https://media.discordapp.net/attachments/1115588799968329841/1246784103215267971/admin-roles-circle-background-icon-vector-removebg-preview.png?ex=665da5ae&is=665c542e&hm=bc140a12f567a242cab7c2df6dd7421190e9059a2bc5bb8a85f3a41ed8137891&=&format=webp&quality=lossless"
             empresaDraft.ativo = true
 
             val empresa = repositoryEmpresas.addEmpresas(empresaDraft)
@@ -69,6 +70,7 @@ fun Application.configureRouting() {
 
         post("/usuarios") {
             val usuarioDraft = call.receive<UsuariosDraft>()
+            usuarioDraft.foto_perfil = "https://media.discordapp.net/attachments/1115588799968329841/1246784102942642248/3607444.png?ex=665da5ae&is=665c542e&hm=563447430652cb54e70c6aaea359cd1375e3c0c84df2e8a383bcdc7216fb6681&=&format=webp&quality=lossless"
             usuarioDraft.ativo = true
 
             val usuario = repositoryUsuarios.addUsuarios(usuarioDraft)

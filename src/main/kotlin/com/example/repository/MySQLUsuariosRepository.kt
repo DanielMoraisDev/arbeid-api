@@ -23,6 +23,7 @@ class MySQLUsuariosRepository: UsuariosRepository {
             it.email_usuario,
             it.senha_usuario,
             it.cpf_usuario,
+            it.foto_perfil,
             it.ativo
         ) }
     }

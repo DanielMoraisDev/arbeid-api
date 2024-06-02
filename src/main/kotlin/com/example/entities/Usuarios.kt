@@ -6,6 +6,6 @@ data class Usuarios(
     var email_usuario: String,
     var senha_usuario: String,
     var cpf_usuario: String,
+    var foto_perfil: String,
     var ativo: Boolean
-//  Falta: foto_perfil
 )
